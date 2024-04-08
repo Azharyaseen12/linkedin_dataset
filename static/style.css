@@ -1,0 +1,415 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* font-family:'Poppins',sans-serif; */
+    font-family: sans-serif;
+    box-sizing: border-box;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell, Droid Sans, Apple Color Emoji, Segoe UI Emoji, Segoe UI Emoji, Segoe UI Symbol, Lucida Grande, Helvetica, Arial, sans-serif;
+}
+body{
+    color: #5f5f5f;
+}
+a{
+    text-decoration: none;
+    color: #5f5f5f;
+}
+/* top navbar styling */
+.top-nav{   
+    background: #fff;
+    position: sticky;
+    top : 0;
+    z-index: 100;
+}
+.top-nav ul {
+    display: flex;
+    padding: 15px;
+    list-style-type: none;
+}
+.top-nav ul li a{
+    padding: 10px;
+    font-size: small;
+    font-weight: 600;
+}
+
+/* navbar styling  */
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 6px 1.5%;
+    position: sticky;
+    top : 0;
+    z-index: 100;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+.navbar-left{
+    padding: 0;
+}
+#first-btn{
+    background-color: #0a66c2;
+    color: white;
+}
+
+.navbar-left ul li{
+    display: inline-block;
+    list-style: none;
+    padding: 5px;
+}
+.navbar-left ul li a{
+    font-size: small;
+    border: 1px solid #0a66c2;
+    color: #0a66c2;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+.navbar-left ul li p{
+    font-size: small;
+    font-weight: 600;
+}
+
+
+.navbar-right{
+    font-size: small;
+    font-weight: 600;
+}
+/* navbar ended */
+
+ /* The sidebar menu */
+ .sidenav {
+    margin-top: 90px;
+    height: 100%;
+    /* width: 250px; */
+    width: 0px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 10px;
+    background-color: #f0f2f5;
+}
+
+/* The navigation menu links */
+
+.sidenav ul li{
+    padding: 15px;
+}
+.sidenav ul li a{
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.sidenav ul img{
+    width: 15px;
+    height: 15px;
+    margin: 0 20px;
+}
+.down-arrow{
+    float: right;
+    
+}
+.sidenav-item{
+    padding: 10px;
+}
+.sidenav-item p{
+    font-size: small;
+    padding-top: 10px;
+}
+
+.sidenav-item-company li{
+    text-decoration: none;
+    font-size: small;
+    font-weight: bold;
+    list-style-type: none;
+    padding: 15px 5px;
+}
+.sidenav-item-company li p{
+    float: right;
+}
+
+.buttons li{
+    display: inline-block;
+    padding: 3px;
+}
+.buttons li button{
+    border: 2px solid lightblue;
+    border-radius: 14px;
+    background-color: lightblue;
+    padding: 3px 5px;   
+}
+
+
+/* Style page content */
+.main{
+    /* margin-top: 50px; */
+    /* margin-left: 250px; */
+    margin-left: 0px;
+    padding: 0px 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    margin-top: 0px;
+}
+
+
+.main-first-section li{
+    list-style-type: none;
+    display: inline-block;
+}
+.main-first-section li img{
+    height: 15px;
+    width: 15px;
+    margin: 0 8px;
+}
+
+.main-first-section li p{
+    float: right;
+}
+/* .main-first-section li img{
+    border: 1px solid rgb(151, 142, 142);
+    border-radius: 50%;
+    padding: 2px;
+    margin-left: 10px;
+    height: 20px;
+    width: 20px;
+} */
+
+
+.main-first-section-right-images{
+    border: 2px solid #e2e0e0;
+    border-radius: 50%;
+}
+
+
+.main-card-section ul li{
+    display: inline-block;
+    height: 80px; 
+    width: 165px; 
+    border: 1px solid #e2e0e0;
+    border-radius: 10px;
+    padding: 15px; 
+    margin: 10px 5px;
+    font-size: small;
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 15px;
+}
+
+.main-card-section ul li p {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+hr{
+    height: 1px;
+    background-color: #e2e0e0;
+    border: none;
+}
+.results{
+    font-size: small;
+    font-weight: 500;
+}
+
+#main-first-section{
+    margin-bottom: 10px;
+}
+
+/* post content sections */
+
+.main-post-content-section div{
+    display: inline-block;
+}
+
+/* left side which is post  */
+.post-side{
+    width: 50%;
+}
+.post-image{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+.post-side ul{
+    display: inline-flex;
+    list-style-type: none;
+}
+.post-side ul li{
+    margin: 10px;
+    
+}
+#name{
+    font-weight: bold;
+    color: #0a66c2;
+    font-size: small;
+}
+#designation{
+    font-size: small;
+   
+}
+#countries{
+    font-size: 10px;
+}
+/* experience */
+#experience{
+    font-size: 11px;
+    margin-left: 20px;
+}
+
+/* right side profile links */
+.profile-info{
+    float: right;
+    margin-top: 10px;
+}
+.profile-info a{
+    margin: 8px;
+}
+
+.profile-info-liks{
+    color: #0a66c2;
+    border: 1px solid #0a66c2;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: small;
+    font-weight: 600;
+}
+.profile-info img{
+    height: 15px;
+    width: 15px;
+    margin-top:15px;
+}
+.profile-info-liks img{
+    height: 5px;
+    width: 10px;
+    margin: 0 10px;
+}
+
+.post-side ul li p{
+    padding: 10px 20px;
+}
+.post-side ul li p a{
+    color: #0a66c2;
+    padding: 5px 5px;
+    font-size: small;
+}
+/* Style hamburger icon */
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 5px 10px;
+}
+
+.filters{
+    width: 100%;
+}
+.filters form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.filters ul li button{
+    background-color: #0a66c2;
+    padding: 12px;
+    color: white;
+    border-radius: 10px;
+    width: 100px;
+    border: none;
+}
+.filters ul li{
+    display: inline-block;
+    padding: 15px; 
+    margin: 10px 5px;
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.filters ul li input{
+    padding: 10px 1px;
+    border-radius: 10px;
+    background-color: #f0f2f5;
+    border-color: lightblue;
+    border: 2px solid #f0f2f5;
+    color: white;
+}
+
+/* MEDIA QUERIES */
+@media (min-width: 0px) and (max-width: 600px){
+
+    .top-nav ul{
+        padding: 10px;
+    }
+    .top-nav ul li a{
+        padding: 0;
+    }
+    .navbar-left ul li{
+        margin: 4px;
+    }
+    .navbar-right{
+        display: none;
+    }
+     
+    .main{
+        margin: auto;
+
+    }
+    .main h3{
+        display: none;
+    }
+    .profile-info{
+        width: 0;
+    }
+    /* .profile-info-liks{
+        display: none;
+    } */
+    .main-card-section ul li{
+        margin: 1px;
+    }
+    .post-side{
+        width: auto;
+    }
+    
+    .main-post-content-section div{
+        display: contents;
+    }
+    table{
+        margin: auto;
+    }
+    
+}
+
+
+@media (max-width: 357px) {
+    .main-card-section ul li{
+        width: 100%;
+    }
+}
+
+/* Media query for smaller screens */
+@media (max-width: 600px) {
+    .sidenav{
+        width: 0;
+    }
+    .navbar-right {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+}

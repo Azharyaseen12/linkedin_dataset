@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %} ">
+    {% block css %}{% endblock css %}
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+    {% include "include/navbar.html" %}
+    {% comment %} <hr>
+        <div class="top-nav">
+            <ul>
+                <li><a href="">Conservation officer</a> ></li>
+                <li><a href="">Talent Pool</a> ></li>
+                <li><a href=""> 380K+ recruiter search</a></li>
+            </ul>
+            <hr>
+        </div>
+        
+        <nav class="navbar">       
+            <div class="navbar-left">
+                <ul>
+                    <li><a href="#" id="first-btn" >380K+ recruiter search</a></li>
+                    <li><a href="#">38 Applicants</a></li>
+                    <li><a href="#">Recommended matches</a></li>
+                    <li><p>+ Add a Candidate</p></li>
+                </ul>
+            </div>  
+              
+
+            <div class="navbar-right">
+            <p>Hiden from results</p>
+            
+           
+            </div> 
+                <div class="hamburger" onclick="toggleSidebar()">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+        </nav>
+        <hr> {% endcomment %}
+     
+      <!-- Side navigation -->
+      
+        <div class="sidenav" style="padding-top: 80px;">
+            
+            <ul>
+                <li><img src="{% static 'images/bookmark10-512.webp' %}" alt=""><a href="{% url 'savedsearches' %}">Saved searches</a><img src="{% static 'images/down-arrow.png' %}" alt="" class="down-arrow" style="margin-top: 10px; height: 5px;width: 10px;"></li>
+                <hr>
+                <li><img src="{% static 'images/recent.png' %}" alt=""><a href="">Search history</a></li>
+                <hr>
+                <li><img src="{% static 'images/filters.png' %}" alt=""><a href="{% url 'filter' %}">Custom filters</a><img src="{% static 'images/down-arrow.png' %}" alt="" class="down-arrow" style="margin-top: 10px; height: 5px;width: 10px;"></li>
+                <hr>
+            </ul>
+            <div class="sidenav-item">
+                <h5>Job titles</h5>
+                <p> <b>+</b> job titles or bolean</p>
+            </div>
+            <hr>
+            <div class="sidenav-item">
+                <h5>Locations</h5>
+                <p> <b>+</b> job titles or bolean</p>
+            </div>
+            <hr>
+            <div class="sidenav-item">
+                <h5>Workplace types </h5>
+                <p> <b>+</b> job titles or bolean</p>
+            </div>
+            <hr>
+            <div class="sidenav-item">
+                <h5>Skills and Assessments</h5>
+                <p> <b>+</b> job titles or bolean</p>
+                <p style="color: #0a66c2;"> + Analythical skills</p>
+            </div>
+            <hr>
+
+            <div class="sidenav-item-company">
+                <li>Companies <p>Clear</p></li>
+                <div class="buttons">
+                    <li><button>'Abbeyfield'</button></li>
+                    <li><button>'Ability Housing Associates'</button></li>
+                    <li><button>'Abbrey group'</button></li>
+                    <li><button>'Access group'</button></li>
+                    <li><button>'Active Prospects Uk'</button></li>
+                    <li><button>'Assia word Counsile'</button></li>
+                    <li><button>'Abbeyfield'</button></li>
+                    <li><button>'Ability Housing Associates'</button></li>
+                    <li><button>'Abbrey group'</button></li>
+                    <li><button>'Access group'</button></li>
+                    <li><button>'Active Prospects Uk'</button></li>
+                    <li><button>'Assia word Counsile'</button></li>
+                    <li><button>'Abbeyfield'</button></li>
+                    <li><button>'Ability Housing Associates'</button></li>
+                    <li><button>'Abbrey group'</button></li>
+                    <li><button>'Access group'</button></li>
+                    <li><button>'Active Prospects Uk'</button></li>
+                    <li><button>'Assia word Counsile'</button></li>
+                    <li><button>'Abbeyfield'</button></li>
+                    <li><button>'Ability Housing Associates'</button></li>
+                    <li><button>'Abbrey group'</button></li>
+                    <li><button>'Access group'</button></li>
+                    <li><button>'Active Prospects Uk'</button></li>
+                    <li><button>'Assia word Counsile'</button></li>
+                </div>
+            </div>
+            <hr>             
+        </div>
+       
+    <!-- Page content -->
+    {% block content %}{% endblock content %}
+    <script>
+            function toggleSidebar() {
+            var sidenav = document.querySelector('.sidenav');
+            if (sidenav.style.width === "250px") {
+                sidenav.style.width = "0";
+            } else {
+                sidenav.style.width = "250px";
+            }
+        }
+    </script>  
+</body>
+</html>

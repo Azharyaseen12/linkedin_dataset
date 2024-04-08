@@ -1,0 +1,136 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="main">
+    <div class="main-first-section">            
+        <li><p><b>Spotlights</b></p></li> 
+        <li><img src="{% static 'images/logo.png' %}" alt=""></li>      
+        <li><img src="{% static 'images/message.png' %}" alt=""></li> 
+
+        <li style="float: right;"><img src="{% static 'images/lessthan.png' %}" class="main-first-section-right-images" alt=""></li>    
+        <li style="float: right;"><img src="{% static 'images/greatethan.png' %}" class="main-first-section-right-images" alt=""></li>    
+
+        <!-- <li ><p class="main-first-section-icon">></p></li>       
+        <li style="float: right;"><p class="main-first-section-icon"><</p></li>        -->
+    </div>
+    <div class="main-card-section"> 
+        <ul>     
+            <li><b>88K+ </b><br><p> Open to work</p></li>       
+            <li><p><b>21K+</b> <br>Active talent</p></li>       
+            <li><p><b>1.6K+</b> <br>Rediscovered <br>candidates</p></li>       
+            <li><p><b>0 </b><br>Internal <br> candidates</p></li>       
+            <li><p><b>1.8K+</b> <br> Interested in your <br> company</p></li>       
+        </ul>     
+        
+    </div>
+    <hr>
+    <div class="main-first-section" id="main-first-section">            
+        <li class="results">380K+ RESULTS</li>       
+        <li class="results" style="margin-left: 20px;"><b>See Search Breakdown</b></li>       
+        <li style="float: right;"><p>1-25 ></p></li>       
+    </div>
+    <hr>
+    <div class="main-post-content-section">            
+        {% if linkedin_data %}
+        <div class="post-side">
+            <ul>
+                <li><img class="post-image" src="{{ linkedin_data.profile_pic_url }}" alt=""></li>
+                <li><span id="name">{{ linkedin_data.full_name }}</span><br> <span id="designation"> <b>{{ linkedin_data.occupation }}</b></span> <br><span id="countries">{{ linkedin_data.country_full_name }} - {{ linkedin_data.city }} - {{ linkedin_data.state }}- housing comunity development</span></li>
+            </ul>
+            <ul>
+                <li><h5>Experience</h5></li>
+                <li id="experience">
+                    {% for experience in linkedin_data.experiences %}
+                    
+                            {{ experience.title }} at <b>{{ experience.company }}</b> {{ experience.description }} {% if experience.location %}
+                            - {{ experience.location }}
+                            {% endif %} <br>
+                            <br>
+                    {% endfor %}
+                </li>
+            </ul>
+            <ul>
+                <li><h5>interests</h5></li>
+                <li> <p style="color: green; font-size: small; font-weight: 200; margin-left: 5px;">Highlight likelihood of interests</p>
+                     <p> <a href="">Active Talent</a> <a href="">Company Followers</a> <a href="">Closer on your network </a>
+                        <a href="">Active on linkedin</a> <a href="">33 connections</a></p> </li>
+            </ul>
+            <ul>
+                <li><h5>Activity</h5></li>
+                <li style="color: #0a66c2; font-size: small; margin-left: 40px"> 1 views </li>
+            </ul>
+        </div>        
+        <div class="profile-info">                
+                <a href="" class="profile-info-liks">save to pipeline </a>
+                <a href="" class="profile-info-liks">Hide</a>                       
+        </div>  
+           
+    </div>
+    <hr>  
+    {% else %}
+    
+    <div class="main-post-content-section">            
+        <div class="post-side">
+            <ul>
+                <li><img class="post-image" src="{% static '/images/user-1.jpg' %}" alt=""></li>
+                <li><span id="name">Rickie Mepsted </span><br> <span id="designation">Home Improvement Surveyor at <b>Moat Homes</b></span> <br><span id="countries">London, Englang, united kingdom - housing comunity development</span></li>
+            </ul>
+            <ul>
+                <li><h5>Experience</h5></li>
+                <li id="experience">Senior Home Improvement Surveyor at <b>Moat Homes</b> Limited 2023-Present <br>
+                    Home Improvement Surveyor at <b>Moat Homes</b> Limited 2023-Present <br>
+                    Stock condition Surveyor at <b>phoenix comunity housing</b> Limited 2023-Present
+                    </li>
+            </ul>
+            <ul>
+                <li><h5>interests</h5></li>
+                <li> <p style="color: green; font-size: small; font-weight: 200;">Highlight likelihood of interests</p>
+                    <p> <a href="">Active Talent</a> <a href="">Company Followers</a> <a href="">Closer on your network </a>
+                        <a href="">Active on linkedin</a> <a href="">33 connections</a></p> </li>
+            </ul>
+            <ul>
+                <li><h5>Activity</h5></li>
+                <li style="color: #0a66c2; font-size: small;margin-left: 40px"> 1 views </li>
+            </ul>
+        </div>        
+        <div class="profile-info">                
+                <a href="" class="profile-info-liks">save to pipeline</a>
+                <a href="" class="profile-info-liks">Hide</a>     
+        </div>  
+           
+    </div>
+    <div class="main-post-content-section">            
+        <div class="post-side">
+            <ul>
+                <li><img class="post-image" src="{% static '/images/user-1.jpg' %}" alt=""></li>
+                <li><span id="name">Rickie Mepsted </span><br> <span id="designation">Home Improvement Surveyor at <b>Moat Homes</b></span> <br><span id="countries">London, Englang, united kingdom - housing comunity development</span></li>
+            </ul>
+            <ul>
+                <li><h5>Experience</h5></li>
+                <li id="experience">Senior Home Improvement Surveyor at <b>Moat Homes</b> Limited 2023-Present <br>
+                    Home Improvement Surveyor at <b>Moat Homes</b> Limited 2023-Present <br>
+                    Stock condition Surveyor at <b>phoenix comunity housing</b> Limited 2023-Present
+                    </li>
+            </ul>
+            <ul>
+                <li><h5>interests</h5></li>
+                <li> <p style="color: green; font-size: small; font-weight: 200;">Highlight likelihood of interests</p>
+                    <p> <a href="">Active Talent</a> <a href="">Company Followers</a> <a href="">Closer on your network </a>
+                        <a href="">Active on linkedin</a> <a href="">33 connections</a></p> </li>
+            </ul>
+            <ul>
+                <li><h5>Activity</h5></li>
+                <li style="color: #0a66c2; font-size: small;margin-left: 40px"> 1 views </li>
+            </ul>
+        </div>        
+        <div class="profile-info">                
+                <a href="" class="profile-info-liks">save to pipeline</a>
+                <a href="" class="profile-info-liks">Hide</a>     
+        </div>  
+           
+    </div>
+    {% endif %}
+</div>  
+
+{% endblock content %}

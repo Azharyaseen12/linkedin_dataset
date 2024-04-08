@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Employees</title>
+</head>
+<body>
+    <h1>Company Employees</h1>
+    <ul>
+        {% for employee in all_results %}
+            <li>{{ employee.profile.first_name }} {{ employee.profile.last_name }} - {{ employee.profile.occupation }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
