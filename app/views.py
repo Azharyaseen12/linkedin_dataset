@@ -40,10 +40,10 @@ def fetch_all_results(api_endpoint, params, headers):
     return all_results
 
 def filter(request):
-    if request.method == 'GET' and 'company_name' in request.GET:
-        companies = request.GET.get('company_name')
+    if request.method == 'POST' and 'company_name' in request.POST:
+        companies = request.POST.get('company_name')
         companies = companies.split(',')
-        job_title = request.GET.get('job_title')  
+        job_title = request.POST.get('job_title')  
         job_titles_list = job_title.split(',')
 
         api_key = 'x3DXCsAWpBjbry7LAzgRnA'
@@ -62,15 +62,19 @@ def filter(request):
             url = company_data.get('url')
             params = {
                 'url': url,
-                'country': '',
                 'role_search': ','.join(job_titles_list),  # Join job titles into a comma-separated string
-                'employment_status': 'all',
+                'country': '',
                 'enrich_profiles': 'enrich',
+                'role_search': '',
+                'page_size': '10',
+                'employment_status': 'all',
+                'resolve_numeric_id': 'false',
             }
             employee_data = fetch_all_results(api_endpoint, params, headers)
             employee_data_list.append(employee_data)
 
         results = sum(len(data) for data in employee_data_list)
+        print(results)
         request.session['company_name'] = companies
         request.session['job_title'] = job_title
         request.session['results'] = results 
