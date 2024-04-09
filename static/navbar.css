@@ -46,7 +46,7 @@ a{
 .navbar-center ul li a img{
     width: 30px;
 }
-.navbar-center ul li a::after{
+/* .navbar-center ul li a::after{
     content: '';
     width: 0;
     height: 2px;
@@ -55,11 +55,11 @@ a{
     bottom: -10px;
     transition: width 0.3s;
 
-}
-.navbar-center ul li a:hover::after,
+} */
+/* .navbar-center ul li a:hover::after,
 .navbar-center ul li a.active-link::after{
     width: 100%;
-}
+} */
 .nav-profile-img{
     width: 40px;
     border-radius: 50%;
@@ -82,43 +82,18 @@ a{
     background: #41db51;
     position: absolute;
 }
-.search-box{
-    background: #f0f2f5;
-    width: 250px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    padding: 0px 15px; 
-}
+
 .linkedin-navbar-left{
     display: flex;
     align-items: center;
 }
-.search-box img{
-    width: 14px;
-}
-.search-box input{
-    width: 100%;
-    background: transparent;
-    padding: 8px;
-    outline: none;
-    border: none;
 
-}
 /* navbar ended */
 
 /* MEDIA QUERIES */
 @media (min-width: 300px) and (max-width: 800px){
     
-    .search-box{
-        background: transparent;
-        width: auto;
-        padding: 0;
-    }
-    .search-box input {
-        width: 0;
-        padding: 0;
-    }
+    
     .navbar-center ul li a span{
         display: none;
     }

@@ -14,7 +14,7 @@
                {% csrf_token %}
                 <li><input type="text" id="company-name" style="color: black; width: 300px; padding: 13px 30px; border: 1px solid #e2e0e0; box-shadow:1px 1px 3px #0a66c2" placeholder="e.g., company, company2, company3" name="company_name"></li>                
                 <li><input type="text" id="company-name2" style="color: black;width: 300px; padding: 13px 30px; border: 1px solid #e2e0e0; box-shadow:1px 1px 3px #0a66c2" placeholder="e.g., job1,job2,job3" name="job_title"></li>                
-                <li><button type="submit" style="padding: 14px;">Filter</button></li>
+                <li><button type="submit" style="padding: 14px; cursor: pointer;">Filter</button></li>
             </form>
         </ul>
     </div>
@@ -27,9 +27,8 @@
         {% endif %}  
         {% comment %} <li class="results" style="margin-left: 20px;"><a href="{% url 'savesearches' %} " style="border: 1px solid #0a66c2; border-radius: 14px; padding: 3px 5px; color: #0a66c2;">Save this Search</a></li>          {% endcomment %}
         <li style="float: right; height:40px; width:40px"><img src="{% static 'images/filters.png' %}"  alt=""></li> <br>          
-    </div>
-    {% comment %} <hr style="visibility: hidden;"> 
-    <div class="main-post-content-section" style="margin-top: 10px;">
+    </div><hr style="visibility: hidden;"> 
+    {% comment %} <div class="main-post-content-section" style="margin-top: 10px;">
         <hr>
         <div class="post-side">
             <ul>
@@ -71,15 +70,17 @@
             <a href="" style="color: #0a66c2;">+Follow </a>                      
         </div>             
     </div> {% endcomment %}
-    <hr>         
+    {% comment %} <hr>          {% endcomment %}
     {% for employees in employee_data_list %}
         {% for employee in employees %}
-            <div class="main-post-content-section">
+        <hr style="visibility: hidden;"> 
+
+            <div class="main-post-content-section" style="margin-top: 10px;">
                 <a href="{{ employee.profile_url }}">
+                    <hr>
                     <div class="post-side">
                         <ul>
-                            <li> 
-                                <img class="post-image" src="{{ employee.profile.profile_pic_url }}" alt="">
+                            <li><img class="post-image" src="{{ employee.profile.profile_pic_url }}" alt="">
                             </li>
                             <li><span id="name">{{ employee.profile.full_name }}</span><br> <span id="designation">{{ employee.profile.occupation }}</span> <br><span id="countries">{{ employee.profile.city }}, {{ employee.profile.country_full_name }} - {{ employee.profile.state }}</span></li>
                             {% comment %} {% if employee.profile.experiences.ends_at == null %}
@@ -91,11 +92,9 @@
                         </ul>
                     </div> 
                  </a>       
-                <div class="profile-info">                
-                    <a href="" style="color: #0a66c2;">+Follow </a>                      
+                <div class="profile-info">                        
                 </div>             
-            </div>
-            <hr>  
+            </div> 
         {% endfor %}
     {% endfor %}
 </div> 
