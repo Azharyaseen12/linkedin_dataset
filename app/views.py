@@ -57,20 +57,24 @@ def filter(request):
             company_data_list.append(data)
 
         api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/employees/'
+        temp_data = []
         employee_data_list = []
         for company_data in company_data_list:
             url = company_data.get('url')
-            params = {
-                'url': url,
-                'role_search': ','.join(job_titles_list),  # Join job titles into a comma-separated string
-                'country': '',
-                'enrich_profiles': 'enrich',
-                'page_size': '10',
-                'employment_status': 'all',
-                'resolve_numeric_id': 'false',
-            }
-            employee_data = fetch_all_results(api_endpoint, params, headers)
-            employee_data_list.append(employee_data)
+            for job_title in job_titles_list:
+                params = {
+                    'url': url,
+                    'role_search': job_title,
+                    'country': '',
+                    'enrich_profiles': 'enrich',
+                    'page_size': '10',
+                    'employment_status': 'all',
+                    'resolve_numeric_id': 'false',
+                }
+                employee_data = fetch_all_results(api_endpoint, params, headers)
+                temp_data.append(employee_data)
+            for data in temp_data:
+                employee_data_list.append(data)
         # print(employee_data_list)
         results = sum(len(data) for data in employee_data_list)
         request.session['company_name'] = companies
