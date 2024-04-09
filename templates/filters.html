@@ -82,6 +82,12 @@
                                 <img class="post-image" src="{{ employee.profile.profile_pic_url }}" alt="">
                             </li>
                             <li><span id="name">{{ employee.profile.full_name }}</span><br> <span id="designation">{{ employee.profile.occupation }}</span> <br><span id="countries">{{ employee.profile.city }}, {{ employee.profile.country_full_name }} - {{ employee.profile.state }}</span></li>
+                            {% comment %} {% if employee.profile.experiences.ends_at == null %}
+                            <li><span id="name">currently working here</span></li>
+                            {% else %}
+                            <li><span id="name">worked here </span></li>
+                            {% endif %} {% endcomment %}
+                            
                         </ul>
                     </div> 
                  </a>       

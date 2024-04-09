@@ -80,7 +80,7 @@ def filter(request):
         request.session['results'] = results 
         current_url = request.build_absolute_uri()
         request.session['current_url'] = current_url  
-
+        print(employee_data_list)
         return render(request, 'filters.html', {'employee_data_list': employee_data_list})
     return render(request, 'filters.html')
 
