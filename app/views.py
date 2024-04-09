@@ -71,7 +71,7 @@ def filter(request):
             }
             employee_data = fetch_all_results(api_endpoint, params, headers)
             employee_data_list.append(employee_data)
-        print(employee_data_list)
+        # print(employee_data_list)
         results = sum(len(data) for data in employee_data_list)
         request.session['company_name'] = companies
         request.session['job_title'] = job_title
