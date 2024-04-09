@@ -47,7 +47,12 @@ td {
             <td>{{ search.companies }}</td>
             <td>{{ search.job_title }}</td>
             <td>{{ search.results }}</td>
-            <td><a href="{{ search.current_url }}" style="cursor: pointer; text-decoration: underline;">search</a></td>
+            <td><form action="{% url 'filter' %}" method="post"> <!-- Make sure to add the URL of your filter view -->
+                {% csrf_token %}
+                 <input type="hidden" value="{{ search.companies }}" id="company-name" placeholder="e.g., company, company2, company3" name="company_name"></li>                
+                 <input type="hidden" value="{{ search.job_title }}" id="company-name2" placeholder="e.g., job1,job2,job3" name="job_title"></li>                
+                 <button type="submit" style="padding: 14px; cursor: pointer;">Search</button>
+             </form></td>
             {% comment %} <td><img src="images/home.png" alt="home"></td> {% endcomment %}
             <td><a href="{% url 'delete' search.id %}" type="submit" name="delete"><img src="{% static 'images/delete.png' %}" style="height: 40px; width: 40px; display: flex; justify-content: center;align-items: center;" alt=""></a></td>
         </tr>

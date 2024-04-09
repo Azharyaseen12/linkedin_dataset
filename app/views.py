@@ -41,8 +41,8 @@ def fetch_all_results(api_endpoint, params, headers):
 
 def filter(request):
     if request.method == 'POST' and 'company_name' in request.POST:
-        companies = request.POST.get('company_name')
-        companies = companies.split(',')
+        compani = request.POST.get('company_name')
+        companies = compani.split(',')
         job_title = request.POST.get('job_title')  
         job_titles_list = job_title.split(',')
 
@@ -74,12 +74,12 @@ def filter(request):
             employee_data_list.append(employee_data)
 
         results = sum(len(data) for data in employee_data_list)
-        # request.session['company_name'] = companies
-        # request.session['job_title'] = job_title
-        # request.session['results'] = results 
+        request.session['company_name'] = companies
+        request.session['job_title'] = job_title
+        request.session['results'] = results 
         current_url = request.build_absolute_uri()
         request.session['current_url'] = current_url  
-        return render(request, 'filters.html', {'employee_data_list': employee_data_list})
+        return render(request, 'filters.html', {'employee_data_list': employee_data_list,'companies':compani,'job_title':job_title})
     return render(request, 'filters.html')
 
 # def filter(request):
@@ -134,13 +134,17 @@ def filter(request):
 #     return render(request , 'filters.html')
 
 def savesearches(request):
-    companies = request.session.get('company_name', None)
-    job_title = request.session.get('job_title', None)
-    results = request.session.get('results', None)
-    current_url = request.session.get('current_url', None)
-    search = Savesearches(companies=companies,job_title=job_title, results=results,current_url=current_url)
-    search.save()
-    return redirect('savedsearches')
+    if request.method == 'GET':
+        companies = request.GET.get('company_name')
+        job_title = request.GET.get('job_title')
+        results = request.session.get('results', None)
+        print(companies,job_title)
+        # current_url = request.session.get('current_url', None)
+        current_url = request.build_absolute_uri()
+        # request.session['current_url'] = current_url  
+        search = Savesearches(companies=companies,job_title=job_title, results=results,current_url=current_url)
+        search.save()
+        return redirect('savedsearches')
 
 def savedsearches(request):
     searches = Savesearches.objects.all()
