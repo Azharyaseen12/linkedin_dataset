@@ -138,7 +138,7 @@ def savesearches(request):
         companies = request.GET.get('company_name')
         job_title = request.GET.get('job_title')
         results = request.session.get('results', None)
-        print(companies,job_title)
+        # print(companies,job_title)
         # current_url = request.session.get('current_url', None)
         current_url = request.build_absolute_uri()
         # request.session['current_url'] = current_url  
