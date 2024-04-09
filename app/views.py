@@ -74,13 +74,11 @@ def filter(request):
             employee_data_list.append(employee_data)
 
         results = sum(len(data) for data in employee_data_list)
-        print(results)
-        request.session['company_name'] = companies
-        request.session['job_title'] = job_title
-        request.session['results'] = results 
+        # request.session['company_name'] = companies
+        # request.session['job_title'] = job_title
+        # request.session['results'] = results 
         current_url = request.build_absolute_uri()
         request.session['current_url'] = current_url  
-        print(employee_data_list)
         return render(request, 'filters.html', {'employee_data_list': employee_data_list})
     return render(request, 'filters.html')
 
