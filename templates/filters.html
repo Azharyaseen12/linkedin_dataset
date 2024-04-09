@@ -22,14 +22,14 @@
     <div class="main-first-section" id="main-first-section" style="padding: 10px;">      
         <li class="results">{{ results }} <b>RESULTS</b> </li>       
         {% comment %} <li class="results" style="margin-left: 20px;"><b>See Search Breakdown</b></li> {% endcomment %}
-       
+        {% if employee_data_list %}
         <form action="{% url 'savesearches' %}" method="post"> <!-- Make sure to add the URL of your filter view -->
             {% csrf_token %}
              <li style="visibility: hidden;"><input type="text" id="company-name" style="color: black; width: 300px; padding: 13px 30px; border: 1px solid #e2e0e0; box-shadow:1px 1px 3px #0a66c2" placeholder="e.g., company, company2, company3" value="{{ request.POST.company }}" name="company_name"></li>                
              <li style="visibility: hidden;"><input type="text" id="company-name2" style="color: black;width: 300px; padding: 13px 30px; border: 1px solid #e2e0e0; box-shadow:1px 1px 3px #0a66c2" placeholder="e.g., job1,job2,job3" value="{{ request.POST.company }}" name="job_title"></li>                
              <li class="results" style="margin-left: 20px;"><a href="{% url 'savesearches' %}" style="border: 1px solid #0a66c2; border-radius: 14px; padding: 3px 5px; color: #0a66c2;">Save this Search</a></li>
          </form>
-            
+        {% endif %}  
         {% comment %} <li class="results" style="margin-left: 20px;"><a href="{% url 'savesearches' %} " style="border: 1px solid #0a66c2; border-radius: 14px; padding: 3px 5px; color: #0a66c2;">Save this Search</a></li>          {% endcomment %}
         <li style="float: right; height:40px; width:40px"><img src="{% static 'images/filters.png' %}"  alt=""></li> <br>          
     </div><hr style="visibility: hidden;"> 
@@ -75,7 +75,7 @@
             <a href="" style="color: #0a66c2;">+Follow </a>                      
         </div>             
     </div> {% endcomment %}
-
+    {% comment %} <hr>          {% endcomment %}
     {% for employees in employee_data_list %}
         {% for employee in employees %}
         <hr style="visibility: hidden;"> 
