@@ -2,6 +2,11 @@ from django.shortcuts import render,HttpResponse,redirect
 import requests
 from .models import Savesearches
 import json
+from django.conf import settings
+from django.core.mail import send_mail
+import datetime
+
+
 
 
 def home(request):
@@ -73,68 +78,37 @@ def filter(request):
                 }
                 employee_data = fetch_all_results(api_endpoint, params, headers)
                 temp_data.append(employee_data)
+               
+
             for data in temp_data:
                 employee_data_list.append(data)
-        # print(employee_data_list)
+            
+            for employee_data in temp_data:
+                for employee in employee_data:
+                    last_updated_timestamp = employee.get('last_updated')
+                    last_updated_datetime = datetime.datetime.strptime(last_updated_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+                    current_datetime = datetime.datetime.utcnow()
+                    time_difference = current_datetime - last_updated_datetime
+                    threshold = datetime.timedelta(days=3)
+                    # print(last_updated_datetime,last_updated_timestamp,current_datetime,time_difference,threshold)
+                    if time_difference <= threshold:
+                        subject = 'Profile Update Alert'
+                        message = f"The profile for {employee['profile']['full_name']} is updated recently."
+                        email_from = settings.EMAIL_HOST_USER
+                        recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
+                        send_mail(subject, message, email_from, recipient_list)
+
+                       
         results = sum(len(data) for data in employee_data_list)
         request.session['company_name'] = companies
         request.session['job_title'] = job_title
         request.session['results'] = results 
         current_url = request.build_absolute_uri()
-        request.session['current_url'] = current_url  
+        request.session['current_url'] = current_url 
+    
         return render(request, 'filters.html', {'employee_data_list': employee_data_list,'companies':compani,'job_title':job_title})
     return render(request, 'filters.html')
-
-# def filter(request):
-#     if request.method == 'GET' and 'company_name' in request.GET:
-#         companies = request.GET.get('company_name')
-#         companies = companies.split(',')
-#         # company2 = request.GET.get('company_name2')
-#         job_title = request.GET.get('job_title')  
-#         job_titles_list = job_title.split(',')
-#         print(job_titles_list)
-#         results = 0
-#         request.session['company_name'] = companies
-#         request.session['job_title'] = job_title
-        
-
-#         api_key = 'x3DXCsAWpBjbry7LAzgRnA'
-#         headers = {'Authorization': 'Bearer ' + api_key}
-#         api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/resolve'
-#         company_data_list = []
-#         for company in companies:
-#             params = { 'company_name': company }
-#             response = requests.get(api_endpoint, params=params, headers=headers)
-#             data = response.json()
-#             company_data_list.append(data)
-
-#         api_key2 = 'x3DXCsAWpBjbry7LAzgRnA'
-#         headers = {'Authorization': 'Bearer ' + api_key2}
-#         api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/employees/'
-#         employee_data_list = []
-#         company_urls = [d['url'] for d in company_data_list]
-#         for url in company_urls:
-#             params = {
-#                 'url': url,
-#                 'country': 'uk',
-#                 'role_search': job_titles_list,
-#                 'employment_status': 'current',
-#                 'enrich_profiles': 'enrich',
-#             }
-#             response = requests.get(api_endpoint, params=params, headers=headers)
-#             data = response.json()
-#             try:
-#                 if len(data['employees']) > 0:
-#                     results = results + len(data['employees'])
-#             except:
-#                 print('')
-#             employee_data_list.append(data)
-#         request.session['results'] = results 
-#         current_url = request.build_absolute_uri()
-#         request.session['current_url'] = current_url  
-        
-#         return render(request , 'filters.html', {'employee_data_list': employee_data_list})
-#     return render(request , 'filters.html')
+ 
 
 def savesearches(request):
     if request.method == 'GET':
@@ -161,3 +135,4 @@ def delete_search(request,id):
     
 def dashboard(request):
     return render(request, 'dashboard.html')
+

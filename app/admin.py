@@ -3,3 +3,4 @@ from .models import Savesearches
 # Register your models here.
 
 admin.site.register(Savesearches)
+# admin.site.register(Profile)

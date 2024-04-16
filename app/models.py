@@ -11,3 +11,10 @@ class Savesearches(models.Model):
     def __str__(self):
         return self.companies
     
+# class Profile(models.Model):
+#     username = models.CharField(max_length=1000,default=None)
+#     job_title = models.CharField(max_length=5000,default=None)
+
+#     def __str__(self):
+#         return self.username
+    
