@@ -77,10 +77,12 @@ def filter(request):
                 temp_data.append(employee_data) 
             for data in temp_data:
                 employee_data_list.append(data)            
+            # print(employee_data_list)
             for employee_data in temp_data:
                 for employee in employee_data:
                     # Get last updated timestamp
                     last_updated_timestamp = employee.get('last_updated')
+                    # print(last_updated_timestamp)
                     if last_updated_timestamp is not None:
                         # Convert last updated timestamp to datetime object
                         last_updated_datetime = datetime.datetime.strptime(last_updated_timestamp, "%Y-%m-%dT%H:%M:%SZ")
@@ -114,6 +116,13 @@ def filter(request):
                                         email_from = settings.EMAIL_HOST_USER
                                         recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
                                         send_mail(subject, message, email_from, recipient_list)
+                        # else:
+                        #     subject = 'Job Title Change Alert'
+                        #     message = f"The job title for {employee['profile']['full_name']} not chenged the profile wast last updated {last_updated_timestamp}'."
+                        #     email_from = settings.EMAIL_HOST_USER
+                        #     recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
+                        #     send_mail(subject, message, email_from, recipient_list)
+
              
         results = sum(len(data) for data in employee_data_list)
         request.session['company_name'] = companies
