@@ -6,9 +6,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 import datetime
 
-
-
-
 def home(request):
     if request.method == 'GET' and 'search_query' in request.GET:
         # Get the search query from the frontend form
@@ -77,28 +74,47 @@ def filter(request):
                     'resolve_numeric_id': 'false',
                 }
                 employee_data = fetch_all_results(api_endpoint, params, headers)
-                temp_data.append(employee_data)
-               
-
+                temp_data.append(employee_data) 
             for data in temp_data:
-                employee_data_list.append(data)
-            
+                employee_data_list.append(data)            
             for employee_data in temp_data:
                 for employee in employee_data:
+                    # Get last updated timestamp
                     last_updated_timestamp = employee.get('last_updated')
-                    last_updated_datetime = datetime.datetime.strptime(last_updated_timestamp, "%Y-%m-%dT%H:%M:%SZ")
-                    current_datetime = datetime.datetime.utcnow()
-                    time_difference = current_datetime - last_updated_datetime
-                    threshold = datetime.timedelta(days=3)
-                    # print(last_updated_datetime,last_updated_timestamp,current_datetime,time_difference,threshold)
-                    if time_difference <= threshold:
-                        subject = 'Profile Update Alert'
-                        message = f"The profile for {employee['profile']['full_name']} is updated recently."
-                        email_from = settings.EMAIL_HOST_USER
-                        recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
-                        send_mail(subject, message, email_from, recipient_list)
-
-                       
+                    if last_updated_timestamp is not None:
+                        # Convert last updated timestamp to datetime object
+                        last_updated_datetime = datetime.datetime.strptime(last_updated_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+                        # Get current datetime
+                        current_datetime = datetime.datetime.utcnow()                        
+                        # Check if the profile was last updated today
+                        if last_updated_datetime.date() == current_datetime.date():
+                            # Initialize variables to store the latest and second last job titles
+                            latest_job_title = None
+                            second_last_job_title = None                            
+                            # Iterate through experiences
+                            experiences = employee.get('profile').get('experiences')
+                            if experiences:
+                                for exp in experiences:
+                                    # Check if experience started today
+                                    if exp['starts_at']['day'] == current_datetime.day and \
+                                            exp['starts_at']['month'] == current_datetime.month and \
+                                            exp['starts_at']['year'] == current_datetime.year:
+                                        latest_job_title = exp['title']                                    
+                                    # Check if experience ended today
+                                    if exp['ends_at'] and exp['ends_at']['day'] == current_datetime.day and \
+                                            exp['ends_at']['month'] == current_datetime.month and \
+                                            exp['ends_at']['year'] == current_datetime.year:
+                                        second_last_job_title = exp['title']                                
+                                # Check if both latest and second last job titles are found
+                                if latest_job_title is not None and second_last_job_title is not None:
+                                    # Trigger an alert if there's a change in job title
+                                    if latest_job_title != second_last_job_title:
+                                        subject = 'Job Title Change Alert'
+                                        message = f"The job title for {employee['profile']['full_name']} has changed from '{second_last_job_title}' to '{latest_job_title}'."
+                                        email_from = settings.EMAIL_HOST_USER
+                                        recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
+                                        send_mail(subject, message, email_from, recipient_list)
+             
         results = sum(len(data) for data in employee_data_list)
         request.session['company_name'] = companies
         request.session['job_title'] = job_title
