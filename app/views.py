@@ -82,7 +82,7 @@ def filter(request):
                 for employee in employee_data:
                     # Get last updated timestamp
                     last_updated_timestamp = employee.get('last_updated')
-                    # print(last_updated_timestamp)
+                    print(last_updated_timestamp)
                     if last_updated_timestamp is not None:
                         # Convert last updated timestamp to datetime object
                         last_updated_datetime = datetime.datetime.strptime(last_updated_timestamp, "%Y-%m-%dT%H:%M:%SZ")
@@ -92,30 +92,30 @@ def filter(request):
                         if last_updated_datetime.date() == current_datetime.date():
                             # Initialize variables to store the latest and second last job titles
                             latest_job_title = None
-                            second_last_job_title = None                            
+                            second_last_job_title = None  
+                                                    
                             # Iterate through experiences
                             experiences = employee.get('profile').get('experiences')
                             if experiences:
                                 for exp in experiences:
-                                    # Check if experience started today
-                                    if exp['starts_at']['day'] == current_datetime.day and \
-                                            exp['starts_at']['month'] == current_datetime.month and \
-                                            exp['starts_at']['year'] == current_datetime.year:
-                                        latest_job_title = exp['title']                                    
-                                    # Check if experience ended today
-                                    if exp['ends_at'] and exp['ends_at']['day'] == current_datetime.day and \
-                                            exp['ends_at']['month'] == current_datetime.month and \
-                                            exp['ends_at']['year'] == current_datetime.year:
-                                        second_last_job_title = exp['title']                                
+                                    if exp.get('ends_at') is None:
+                                        latest_job_title = exp['title']
+                                        print(latest_job_title)
+                                        break 
+                                for exp in experiences:
+                                    if exp.get('ends_at') is not None:
+                                        if exp['title'] != latest_job_title:
+                                            second_last_job_title = exp['title']
+                                            print(second_last_job_title)
+                                            break    # Stop searching once the second last job title is found               
+                                     
                                 # Check if both latest and second last job titles are found
-                                if latest_job_title is not None and second_last_job_title is not None:
-                                    # Trigger an alert if there's a change in job title
-                                    if latest_job_title != second_last_job_title:
-                                        subject = 'Job Title Change Alert'
-                                        message = f"The job title for {employee['profile']['full_name']} has changed from '{second_last_job_title}' to '{latest_job_title}'."
-                                        email_from = settings.EMAIL_HOST_USER
-                                        recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
-                                        send_mail(subject, message, email_from, recipient_list)
+                                if latest_job_title != second_last_job_title:
+                                    subject = 'Job Title Change Alert'
+                                    message = f"The job title for {employee['profile']['full_name']} has changed from '{second_last_job_title}' to '{latest_job_title}'."
+                                    email_from = settings.EMAIL_HOST_USER
+                                    recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
+                                    send_mail(subject, message, email_from, recipient_list)
                         # else:
                         #     subject = 'Job Title Change Alert'
                         #     message = f"The job title for {employee['profile']['full_name']} not chenged the profile wast last updated {last_updated_timestamp}'."
