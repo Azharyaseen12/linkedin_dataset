@@ -1,8 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
 {% load custom_filters %}
-{% block content %}
+{% block css %}
+<style>
+    /* Spinner Styles */
+    .spinner {
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #7987a1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+</style>
+{% endblock css %}
+{% block content %}
 <div class="main" style="margin: 10px 100px; padding-top: 20px; border-radius: 14px;">
     <div class="main-first-section">            
         <li><p><b>Filters</b></p></li>
@@ -77,6 +99,7 @@
         </div>             
     </div> {% endcomment %}
     {% comment %} <hr>          {% endcomment %}
+    
     {% for employees in employee_data_list %}
         {% for employee in employees %}
         <hr style="visibility: hidden;"> 
@@ -107,5 +130,32 @@
             </div> 
         {% endfor %}
     {% endfor %}
-</div> 
+   
+</div>
+ <!-- Loader -->
+<div style="display: flex;align-items: center;justify-content: center;">
+    <div id="loader" class="text-center" style="display: none;">
+        <div class="spinner"></div>
+        <br>
+        <div>loading...</div>
+    </div>
+</div>
+
+<script>
+    // Show loader when the page starts loading
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("loader").style.display = "block";
+    });
+
+    // Hide loader when the page has finished loading
+    window.addEventListener("load", function() {
+        document.getElementById("loader").style.display = "none";
+    });
+
+    // Show loader when search form is submitted
+    document.querySelector("form").addEventListener("submit", function() {
+        document.getElementById("loader").style.display = "block";
+    });
+</script>
+
 {% endblock content %}
