@@ -171,10 +171,10 @@ def send_daily_email():
     if not email:
         company_data_list = []
         companies = ['zebra housing','Ocean Housing','Westway Trust']
-        # my_companies = Companies.objects.all()
-        # for my_companies in my_companies:
-        #     cleaned_company_name = my_companies.company.strip('"')
-        #     companies.append(cleaned_company_name)  
+        my_companies = Companies.objects.all()
+        for my_companies in my_companies:
+            cleaned_company_name = my_companies.company.strip('"')
+            companies.append(cleaned_company_name)  
 
         api_key = 'x3DXCsAWpBjbry7LAzgRnA'
         headers = {'Authorization': 'Bearer ' + api_key}  
