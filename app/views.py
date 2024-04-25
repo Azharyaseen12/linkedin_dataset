@@ -1,10 +1,14 @@
 from django.shortcuts import render,HttpResponse,redirect
 import requests
-from .models import Savesearches
+from .models import Savesearches,Email
 import json
 from django.conf import settings
 from django.core.mail import send_mail
 import datetime
+from django.utils import timezone
+import csv
+from .models import Companies
+import pandas as pd
 
 def home(request):
     if request.method == 'GET' and 'search_query' in request.GET:
@@ -42,6 +46,7 @@ def fetch_all_results(api_endpoint, params, headers):
     return all_results
 
 def filter(request):
+    send_daily_email()
     if request.method == 'POST' and 'company_name' in request.POST:
         compani = request.POST.get('company_name')
         companies = compani.split(',')
@@ -157,3 +162,106 @@ def delete_search(request,id):
 def dashboard(request):
     return render(request, 'dashboard.html')
 
+
+def send_daily_email():
+    # Get today's date
+    present_date = datetime.date.today() 
+    email = Email.objects.filter(date=present_date)                                        
+    # print(email.date,present_date)
+    if not email:
+        company_data_list = []
+        companies = ['zebra housing','Ocean Housing','Westway Trust']
+        # my_companies = Companies.objects.all()
+        # for my_companies in my_companies:
+        #     cleaned_company_name = my_companies.company.strip('"')
+        #     companies.append(cleaned_company_name)  
+
+        api_key = 'x3DXCsAWpBjbry7LAzgRnA'
+        headers = {'Authorization': 'Bearer ' + api_key}  
+        for company in companies:
+                api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/resolve'
+                params = { 'company_name': company }
+                response = requests.get(api_endpoint, params=params, headers=headers)
+                data = response.json()
+                company_data_list.append(data)
+
+        api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/employees/'
+        temp_data = []
+        employee_data_list = []
+        for company_data in company_data_list:
+                url = company_data.get('url')
+                params = {
+                        'url': url,
+                        # 'role_search':'developer',
+                        'country': 'uk',
+                        'enrich_profiles': 'enrich',
+                        'page_size': '10',
+                        'employment_status': 'all',
+                        'resolve_numeric_id': 'false',
+                    }
+                employee_data = fetch_all_results(api_endpoint, params, headers)
+                temp_data.append(employee_data) 
+                for data in temp_data:
+                    employee_data_list.append(data)            
+                print(employee_data_list)
+                for employee_data in temp_data:
+                    for employee in employee_data:
+                        # Get last updated timestamp
+                        last_updated_timestamp = employee.get('last_updated')
+                        print(last_updated_timestamp)
+                        if last_updated_timestamp is not None:
+                            # Convert last updated timestamp to datetime object
+                            last_updated_datetime = datetime.datetime.strptime(last_updated_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+                            # Get current datetime
+                            current_datetime = datetime.datetime.utcnow()                        
+                            # Check if the profile was last updated today
+                            if last_updated_datetime.year == current_datetime.year:
+                                # Initialize variables to store the latest and second last job titles
+                                latest_job_title = None
+                                second_last_job_title = None  
+                                                        
+                                # Iterate through experiences
+                                experiences = employee.get('profile').get('experiences')
+                                if experiences:
+                                    for exp in experiences:
+                                        if exp.get('ends_at') is None:
+                                            latest_job_title = exp['title']
+                                            latest_job_company = exp['company']
+                                            print(latest_job_title)
+                                            break 
+                                    for exp in experiences:
+                                        if exp.get('ends_at') is not None:
+                                            if exp['title'] != latest_job_title:
+                                                second_last_job_title = exp['title']
+                                                second_last_job_company = exp['company']
+                                                print(second_last_job_title)
+                                                break    # Stop searching once the second last job title is found               
+                                    # Check if both latest and second last job titles are found
+                                    if latest_job_title != second_last_job_title:
+                                        subject = 'Job Title Change Alert'
+                                        # message = f"The job title for {employee['profile']['full_name']} has changed from '{second_last_job_title}' to '{latest_job_title}'."
+                                        message = f"This message is to inform you that {employee['profile']['full_name']} who was a {second_last_job_title} at {second_last_job_company} changed his job and now he is {employee['profile']['occupation']} "
+                                        email_from = settings.EMAIL_HOST_USER
+                                        recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
+                                        send_mail(subject, message, email_from, recipient_list)
+                                        email_obj = Email()
+                                        email_obj.save()
+                                        print('email sended and saved date ') 
+                                        
+               
+    return HttpResponse('It is not time to send the email yet.')
+
+
+
+def read_and_save_companies(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path)
+    
+    # Extract the company names from the DataFrame
+    company_names = df['Name of Company']
+    
+    # Save company names into the model
+    for name in company_names:
+        Companies.objects.create(company=name.strip())
+csv_file_path = r'F:\falconxoft internship\project2\linkedin_dataset_project\nm\linkedin_dataset\Organisation Linkedin Names for proxycurl.xlsx'
+# read_and_save_companies(csv_file_path)

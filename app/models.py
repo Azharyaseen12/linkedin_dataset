@@ -17,4 +17,13 @@ class Savesearches(models.Model):
 
 #     def __str__(self):
 #         return self.username
-    
+
+class Email(models.Model):
+    mesage = models.CharField(max_length=100000,default=None,null=True)
+    date = models.DateField(auto_now_add=True)
+
+class Companies(models.Model):
+    company = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.company

@@ -114,6 +114,8 @@ USE_I18N = True
 USE_TZ = True
 
 
+# Set timezone to Pakistan Standard Time
+TIME_ZONE = 'Asia/Karachi'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
