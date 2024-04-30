@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 import datetime
 from django.utils import timezone
 import csv
-from .models import Companies
+from .models import Companies,UkCompanies
 import pandas as pd
 
 def home(request):
@@ -94,7 +94,7 @@ def filter(request):
                         # Get current datetime
                         current_datetime = datetime.datetime.utcnow()                        
                         # Check if the profile was last updated today
-                        if last_updated_datetime.month == current_datetime.month and last_updated_datetime.year == current_datetime.year:
+                        if last_updated_datetime.year == current_datetime.year and last_updated_datetime.month == current_datetime.month and last_updated_datetime.day == current_datetime.day:
                             # Initialize variables to store the latest and second last job titles
                             latest_job_title = None
                             second_last_job_title = None  
@@ -170,30 +170,18 @@ def send_daily_email():
     # print(email.date,present_date)
     if not email:
         company_data_list = []
-        companies = ['zebra housing','Ocean Housing','Westway Trust']
-        my_companies = Companies.objects.all()
-        for my_companies in my_companies:
-            cleaned_company_name = my_companies.company.strip('"')
-            companies.append(cleaned_company_name)  
+        ukcompanies = UkCompanies.objects.all()
+        for compani in ukcompanies:
+            company_data_list.append(data)
 
-        api_key = 'x3DXCsAWpBjbry7LAzgRnA'
-        headers = {'Authorization': 'Bearer ' + api_key}  
-        for company in companies:
-                api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/resolve'
-                params = { 'company_name': company }
-                response = requests.get(api_endpoint, params=params, headers=headers)
-                data = response.json()
-                company_data_list.append(data)
-
+        api_key = 'x3DXCsAWpBjbry7LAzgRnA'        
+        headers = {'Authorization': 'Bearer ' + api_key}
         api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/employees/'
         temp_data = []
         employee_data_list = []
-        for company_data in company_data_list:
-                url = company_data.get('url')
+        for url in company_data_list:
                 params = {
                         'url': url,
-                        # 'role_search':'developer',
-                        'country': 'uk',
                         'enrich_profiles': 'enrich',
                         'page_size': '10',
                         'employment_status': 'all',
@@ -215,7 +203,7 @@ def send_daily_email():
                             # Get current datetime
                             current_datetime = datetime.datetime.utcnow()                        
                             # Check if the profile was last updated today
-                            if last_updated_datetime.year == current_datetime.year:
+                            if last_updated_datetime.year == current_datetime.year and last_updated_datetime.month == current_datetime.month and last_updated_datetime.day == current_datetime.day:
                                 # Initialize variables to store the latest and second last job titles
                                 latest_job_title = None
                                 second_last_job_title = None  
@@ -251,8 +239,6 @@ def send_daily_email():
                
     return HttpResponse('It is not time to send the email yet.')
 
-
-
 def read_and_save_companies(file_path):
     # Read the Excel file
     df = pd.read_excel(file_path)
@@ -265,3 +251,65 @@ def read_and_save_companies(file_path):
         Companies.objects.create(company=name.strip())
 csv_file_path = r'F:\falconxoft internship\project2\linkedin_dataset_project\nm\linkedin_dataset\Organisation Linkedin Names for proxycurl.xlsx'
 # read_and_save_companies(csv_file_path)
+
+
+# def uk_based_company():    
+#     company_data_list = []
+#     companies = [
+#     ]
+#     # my_companies = Companies.objects.all()
+#     # for my_companies in my_companies:
+#     #     cleaned_company_name = my_companies.company.strip('"')
+#     #     companies.append(cleaned_company_name)  
+
+#     api_key = 'x3DXCsAWpBjbry7LAzgRnA'
+#     headers = {'Authorization': 'Bearer ' + api_key}  
+#     for company in companies:
+#             api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/resolve'
+#             params = {
+#                 'company_name': company ,
+#                 'company_location': 'GB',
+#                 }
+#             response = requests.get(api_endpoint, params=params, headers=headers)
+#             data = response.json()
+#             company_data_list.append(data)
+    
+#     print(company_data_list)
+
+#     api_key = 'x3DXCsAWpBjbry7LAzgRnA'
+#     headers = {'Authorization': 'Bearer ' + api_key}
+#     api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company'
+#     for company_data in company_data_list:
+#                 url = company_data.get('url')
+#                 print(url)
+#                 # company profile    
+#                 params = {
+#                     'url': url,
+#                     'resolve_numeric_id': 'true',
+#                     'categories': 'include',
+#                     'funding_data': 'include',
+#                     'exit_data': 'include',
+#                     'acquisitions': 'include',
+#                     'extra': 'include',
+#                     'use_cache': 'if-present',
+#                     'fallback_to_cache': 'on-error',
+#                 }
+#                 response = requests.get(api_endpoint,
+#                                         params=params,
+#                                         headers=headers)
+#                 data = response.json()
+#                 # print(data)
+
+#                 # Extract the headquarters location
+#                 headquarters = data.get("hq")
+
+#                 if headquarters:
+#                     country = headquarters.get("country")
+#                     print(country)
+#                     if country != None and country.lower() == 'gb':
+#                         uk_companies = UkCompanies(linkedin_profile_link=url, country=country)
+#                         uk_companies.save()
+#                         print("data saved successfully")
+#                     else:
+#                         print(f"cannot save the company because comapnies is from {country} not uk")
+# # uk_based_company()

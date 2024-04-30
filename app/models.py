@@ -27,3 +27,9 @@ class Companies(models.Model):
 
     def __str__(self):
         return self.company
+class UkCompanies(models.Model):
+    country = models.CharField(max_length=1000)
+    linkedin_profile_link = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.country
