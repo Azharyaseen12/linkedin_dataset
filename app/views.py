@@ -230,7 +230,7 @@ def send_daily_email():
                                         # message = f"The job title for {employee['profile']['full_name']} has changed from '{second_last_job_title}' to '{latest_job_title}'."
                                         message = f"This message is to inform you that {employee['profile']['full_name']} who was a {second_last_job_title} at {second_last_job_company} changed his job and now he is {employee['profile']['occupation']} "
                                         email_from = settings.EMAIL_HOST_USER
-                                        recipient_list = ['azharyaseen871@gmail.com']  # Update with recipient email address
+                                        recipient_list = ['Dawarsardar786@gmail.com']  # Update with recipient email address
                                         send_mail(subject, message, email_from, recipient_list)
                                         email_obj = Email()
                                         email_obj.save()
@@ -253,63 +253,63 @@ csv_file_path = r'F:\falconxoft internship\project2\linkedin_dataset_project\nm\
 # read_and_save_companies(csv_file_path)
 
 
-def uk_based_company():    
-    company_data_list = []
-    companies = [
-    ]
-    # my_companies = Companies.objects.all()
-    # for my_companies in my_companies:
-    #     cleaned_company_name = my_companies.company.strip('"')
-    #     companies.append(cleaned_company_name)  
+# def uk_based_company():    
+#     company_data_list = []
+#     companies = [
+#     ]
+#     # my_companies = Companies.objects.all()
+#     # for my_companies in my_companies:
+#     #     cleaned_company_name = my_companies.company.strip('"')
+#     #     companies.append(cleaned_company_name)  
 
-    api_key = 'x3DXCsAWpBjbry7LAzgRnA'
-    headers = {'Authorization': 'Bearer ' + api_key}  
-    for company in companies:
-            api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/resolve'
-            params = {
-                'company_name': company ,
-                'company_location': 'GB',
-                }
-            response = requests.get(api_endpoint, params=params, headers=headers)
-            data = response.json()
-            company_data_list.append(data)
+#     api_key = 'x3DXCsAWpBjbry7LAzgRnA'
+#     headers = {'Authorization': 'Bearer ' + api_key}  
+#     for company in companies:
+#             api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company/resolve'
+#             params = {
+#                 'company_name': company ,
+#                 'company_location': 'GB',
+#                 }
+#             response = requests.get(api_endpoint, params=params, headers=headers)
+#             data = response.json()
+#             company_data_list.append(data)
     
-    print(company_data_list)
+#     print(company_data_list)
 
-    api_key = 'x3DXCsAWpBjbry7LAzgRnA'
-    headers = {'Authorization': 'Bearer ' + api_key}
-    api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company'
-    for company_data in company_data_list:
-                url = company_data.get('url')
-                print(url)
-                # company profile    
-                params = {
-                    'url': url,
-                    'resolve_numeric_id': 'true',
-                    'categories': 'include',
-                    'funding_data': 'include',
-                    'exit_data': 'include',
-                    'acquisitions': 'include',
-                    'extra': 'include',
-                    'use_cache': 'if-present',
-                    'fallback_to_cache': 'on-error',
-                }
-                response = requests.get(api_endpoint,
-                                        params=params,
-                                        headers=headers)
-                data = response.json()
-                # print(data)
+#     api_key = 'x3DXCsAWpBjbry7LAzgRnA'
+#     headers = {'Authorization': 'Bearer ' + api_key}
+#     api_endpoint = 'https://nubela.co/proxycurl/api/linkedin/company'
+#     for company_data in company_data_list:
+#                 url = company_data.get('url')
+#                 print(url)
+#                 # company profile    
+#                 params = {
+#                     'url': url,
+#                     'resolve_numeric_id': 'true',
+#                     'categories': 'include',
+#                     'funding_data': 'include',
+#                     'exit_data': 'include',
+#                     'acquisitions': 'include',
+#                     'extra': 'include',
+#                     'use_cache': 'if-present',
+#                     'fallback_to_cache': 'on-error',
+#                 }
+#                 response = requests.get(api_endpoint,
+#                                         params=params,
+#                                         headers=headers)
+#                 data = response.json()
+#                 # print(data)
 
-                # Extract the headquarters location
-                headquarters = data.get("hq")
+#                 # Extract the headquarters location
+#                 headquarters = data.get("hq")
 
-                if headquarters:
-                    country = headquarters.get("country")
-                    print(country)
-                    if country != None and country.lower() == 'gb':
-                        uk_companies = UkCompanies(linkedin_profile_link=url, country=country)
-                        uk_companies.save()
-                        print("data saved successfully")
-                    else:
-                        print(f"cannot save the company because comapnies is from {country} not uk")
-# uk_based_company()
+#                 if headquarters:
+#                     country = headquarters.get("country")
+#                     print(country)
+#                     if country != None and country.lower() == 'gb':
+#                         uk_companies = UkCompanies(linkedin_profile_link=url, country=country)
+#                         uk_companies.save()
+#                         print("data saved successfully")
+#                     else:
+#                         print(f"cannot save the company because comapnies is from {country} not uk")
+# # uk_based_company()
